@@ -6,7 +6,7 @@ WORKDIR /opt/sonarqube/extensions/plugins/
 COPY ./plugins /opt/sonarqube/extensions/plugins/
 
 # Expose the default SonarQube port
-EXPOSE 7000
+EXPOSE 6000
 WORKDIR /opt/sonarqube
 # Start SonarQube
 ENTRYPOINT ["/opt/sonarqube/docker/entrypoint.sh"]
