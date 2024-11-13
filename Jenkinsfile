@@ -20,7 +20,7 @@ pipeline {
 
                 script { 
 
-                    dockerImage = docker.build --no-cache -t registry + ":$BUILD_NUMBER" 
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
 
                 }
             } 
