@@ -26,7 +26,7 @@ pipeline {
             } 
         }
 
-        stage('Deploy our image') { 
+        stage('Push image to DockerHub') { 
 
             steps { 
 
@@ -44,16 +44,28 @@ pipeline {
 
         } 
 
-        stage('Cleaning up') { 
-
-            steps { 
-
-                bat "docker rmi $registry:$BUILD_NUMBER" 
-
+         stage('Cleaning up Previous Image from Local Docker Engine') {
+    steps {
+        script {
+            // Stop and remove the container first
+            bat "docker stop javawebapp"
+            bat "docker rm javawebapp"
+        def lastSuccessfulBuildID = 0
+        def build = currentBuild.previousBuild
+        while (build != null) {
+            if (build.result == "SUCCESS")
+            {
+                lastSuccessfulBuildID = build.id as Integer
+                break
             }
-
-        } 
-
+            build = build.previousBuild
+        }
+        println lastSuccessfulBuildID
+            // Now remove the image
+            bat "docker rmi $registry:${lastSuccessfulBuildID}"
+        }
+    }
+}
     }
 
 }
