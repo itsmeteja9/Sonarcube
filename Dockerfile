@@ -1,6 +1,12 @@
 FROM sonarqube:10.6-community
 
-EXPOSE 7000
+WORKDIR /opt/sonarqube/extensions/plugins/
+
+# Copy the plugins into the working directory
 COPY ./plugins /opt/sonarqube/extensions/plugins/
+
+# Expose the default SonarQube port
+EXPOSE 7000
+
 # Start SonarQube
 CMD ["bin/sonar.sh", "start"]
