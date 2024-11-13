@@ -48,8 +48,8 @@ pipeline {
     steps {
         script {
             // Stop and remove the container first
-            bat "docker stop sonarqube1"
-            bat "docker rm sonarqube1"
+            // bat "docker stop sonarqube1"
+           // bat "docker rm sonarqube1"
         def lastSuccessfulBuildID = 0
         def build = currentBuild.previousBuild
         while (build != null) {
