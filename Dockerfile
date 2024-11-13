@@ -7,6 +7,6 @@ COPY ./plugins /opt/sonarqube/extensions/plugins/
 
 # Expose the default SonarQube port
 EXPOSE 7000
-
+WORKDIR /opt/sonarqube
 # Start SonarQube
 CMD ["bin/sonar.sh", "start"]
