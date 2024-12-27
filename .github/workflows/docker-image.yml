@@ -38,7 +38,7 @@ jobs:
       - name: Run Docker container from image
         run: |
           # Pull the image from the Docker registry (Docker Hub)
-          docker pull my-image-name:$(date +%s)
+          docker pull itsmeteja9/sonarqube1:16
           
           # Run the container in detached mode
           docker run -d --name my-container-name my-image-name:$(date +%s)
