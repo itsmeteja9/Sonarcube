@@ -27,21 +27,24 @@ jobs:
             ${{ runner.os }}-buildx-
 
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+        run: docker build . --file Dockerfile --tag itsmeteja9/sonarqube:${{ github.sha }}
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Docker image to registry
-        run: docker push itsmeteja9/sonarqube:$(date +%s)
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: docker push itsmeteja9/sonarqube:${{ github.sha }}
 
       - name: Run Docker container from image
         run: |
           # Pull the image from the Docker registry (Docker Hub)
-          docker pull itsmeteja9/sonarqube1:16
+          docker pull itsmeteja9/sonarqube:${{ github.sha }}
           
           # Run the container in detached mode
-          docker run -d --name itsmeteja9 sonarqube:$(date +%s)
+          docker run -d --name sonarqube-container itsmeteja9/sonarqube:${{ github.sha }}
         
       - name: Verify the container is running
         run: docker ps
