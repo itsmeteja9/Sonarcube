@@ -33,7 +33,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.ITSMETJA9 }}
-          password: ${{ secrets.ITSMETJA9 }}
+          password: ${{ secrets.Applecloud@90 }}
 
       - name: Push Docker image to registry
         run: docker push itsmeteja9/sonarqube:${{ github.sha }}
