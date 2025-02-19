@@ -44,28 +44,38 @@ pipeline {
 
         } 
 
-         stage('Cleaning up Previous Image from Local Docker Engine') {
+        stage('Cleaning up Previous Image from Local Docker Engine') {
     steps {
         script {
-            // Stop and remove the container first
+            // Uncomment to stop and remove the container first (if you need to clean up containers)
             // bat "docker stop sonarqube1"
-           // bat "docker rm sonarqube1"
-        def lastSuccessfulBuildID = 0
-        def build = currentBuild.previousBuild
-        while (build != null) {
-            if (build.result == "SUCCESS")
-            {
-                lastSuccessfulBuildID = build.id as Integer
-                break
+            // bat "docker rm sonarqube1"
+
+            def lastSuccessfulBuildID = 0
+            def build = currentBuild.previousBuild
+
+            // Loop through previous builds to find the most recent successful one
+            while (build != null) {
+                if (build.result == "SUCCESS") {
+                    lastSuccessfulBuildID = build.id as Integer
+                    break
+                }
+                build = build.previousBuild
             }
-            build = build.previousBuild
-        }
-        println lastSuccessfulBuildID
-            // Now remove the image
-            bat "docker rmi $registry:${lastSuccessfulBuildID}"
+
+            println "Last successful build ID: ${lastSuccessfulBuildID}"
+
+            // Ensure that we have found a valid successful build ID
+            if (lastSuccessfulBuildID != 0) {
+                // Remove the image from the Docker engine using the build ID
+                bat "docker rmi $registry:${lastSuccessfulBuildID}"
+            } else {
+                println "No successful build found to clean up."
+            }
         }
     }
 }
+
     }
 
 }
