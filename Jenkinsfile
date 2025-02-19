@@ -2,7 +2,7 @@ pipeline {
 
     environment { 
 
-        registry = "itsmeteja9/sonarqube1" 
+        registry = "itsmeteja9/sonarqube2" 
 
         registryCredential = 'dockerjenkinsintegration' 
 
